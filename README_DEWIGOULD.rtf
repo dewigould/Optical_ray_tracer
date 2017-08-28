@@ -1,0 +1,93 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Dewi Gould\
+CID: 01051830\
+Optical Ray Tracer:  7/2/17\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+Modules included:\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\'95	}OpRayTracer1.py\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0\cf0 {\listtext	\'95	}Operator.py\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+GENERAL USAGE NOTES:\
+Module allows the production, propagation and visualisation of bundles of optical rays through a given system of optical lenses.\
+System operates in the x/y plane, with rays propagating in the z direction.\
+\
+Operator.py is designed with a user-interface for ease of use. However this document will explain how to generate results from both the original code in OpRayTracer1 and the easy-to-use Operator file.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+Inputs for Operator.py:\
+\
+This has two user inputs:\
+\
+Incident Beam Radius - suggested value of 6mm: user just types the number required. i.e. 6\
+Spot plot or RMS: If the user types \'91SPOT\'92 they will obtain a spot plot of the rays at the paraxial focal point. If the user types \'91RMS\'92 they will get the RMS deviation from the paraxial focal point.\
+This code will also plot the path of the rays and plot the initial positions of the rays, as well as giving the focal length of the optical configuration and the diffraction scale of the system.\
+\
+\
+The intention is for this code to make the collection of data quick and easy. However, the below documentation details how to obtain various pieces of information directly from the original code in OpRayTracer1.py\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+CREATING A BUNDLE OF RAYS AND PROPAGATING THROUGH TWO  REFRACTING OPTICAL ELEMENTS TO OUTPUT PLANE AT PARAXIAL FOCUS\
+\
+import OpRayTracer1 as op\
+bun=op.Bundles(6,6,6)\
+lens1=op.SphericalRefraction(50,1,1.5168,0.02,100)\
+lens2=op.SphericalRefraction(55,1.5168,1,0,100)\
+focal_point=op.focal_point_finder([lens1,lens2]).focal_point()\
+outputplane=op.OutputPlane(focal_point)\
+f=op.final(bun, [lens1,lens2,outputplane])\
+f.spot_plot()\
+test=op.Test_Plotter(bun,[lens1,lens2,outputplane])\
+test.go()\
+\
+This yields a spot plot and path plot for a bundle of rays propagating through a planoconvex lens.\
+Spot Plot is in the plane at z=paraxial focal point for the optical system, which is calculated using the class \'91focal_point_finder\'92\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+SPHERICAL REFLECTION EXAMPLE (convex reflecting surface)\
+\
+import OpRayTracer1 as op\
+bun=op.Bundles(6,6,6)\
+a=op.SphericalReflection(10,-0.13,100)\
+b=op.OutputPlane(5)\
+test=op.Test_Plotter(bun,[a,b])\
+test.go()\
+\
+Yields a plot of ray path after reflection off a convex reflecting surface - significant spherical aberration visible in this example.\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+TWO LENS OPTIMIZATION\
+\
+import OpRayTracer1 as op\
+bun=op.Bundles(6,10,6)\
+m=op.mini(bun,0.02,0,5)\
+m.opt()\
+\
+This minimises the RMS deviation for a given two-optical-surface system with respect to the two curvatures.\
+Generates the two curvatures which produce the minimum RMS deviation.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+PLOT OF RMS AGAINST INCIDENT BEAM RADIUS\
+\
+import OpRayTracer1 as op\
+r=op.rmsvarying(0.02,0)\
+r.rmsrelplot()\
+\
+Yields a plot of RMS against incident beam radius for a two-optical-surface system to examine the relationship between the geometrical focus and the diffraction limit.\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97}
