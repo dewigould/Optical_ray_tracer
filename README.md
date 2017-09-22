@@ -37,6 +37,8 @@ The intention is for this code to make the collection of data quick and easy. Ho
 
 CREATING A BUNDLE OF RAYS AND PROPAGATING THROUGH TWO  REFRACTING OPTICAL ELEMENTS TO OUTPUT PLANE AT PARAXIAL FOCUS
 
+```
+
 import OpRayTracer1 as op
 bun=op.Bundles(6,6,6)
 lens1=op.SphericalRefraction(50,1,1.5168,0.02,100)
@@ -48,11 +50,14 @@ f.spot_plot()
 test=op.Test_Plotter(bun,[lens1,lens2,outputplane])
 test.go()
 
+```
+
 This yields a spot plot and path plot for a bundle of rays propagating through a planoconvex lens.
 Spot Plot is in the plane at z=paraxial focal point for the optical system, which is calculated using the class ‘focal_point_finder’
 ———————————————————————————————————
 
 SPHERICAL REFLECTION EXAMPLE (convex reflecting surface)
+```
 
 import OpRayTracer1 as op
 bun=op.Bundles(6,6,6)
@@ -61,16 +66,19 @@ b=op.OutputPlane(5)
 test=op.Test_Plotter(bun,[a,b])
 test.go()
 
+```
 Yields a plot of ray path after reflection off a convex reflecting surface - significant spherical aberration visible in this example.
 ———————————————————————————————————
 
 TWO LENS OPTIMIZATION
+```
 
 import OpRayTracer1 as op
 bun=op.Bundles(6,10,6)
 m=op.mini(bun,0.02,0,5)
 m.opt()
 
+```
 This minimises the RMS deviation for a given two-optical-surface system with respect to the two curvatures.
 Generates the two curvatures which produce the minimum RMS deviation.
 
