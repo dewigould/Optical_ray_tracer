@@ -86,10 +86,13 @@ Generates the two curvatures which produce the minimum RMS deviation.
 
 PLOT OF RMS AGAINST INCIDENT BEAM RADIUS
 
+```
+
 import OpRayTracer1 as op
 r=op.rmsvarying(0.02,0)
 r.rmsrelplot()
 
+```
 Yields a plot of RMS against incident beam radius for a two-optical-surface system to examine the relationship between the geometrical focus and the diffraction limit.
 
 ———————————————————————————————————
